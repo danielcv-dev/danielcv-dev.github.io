@@ -28,7 +28,7 @@ class App{
 	//cerate light
 		const ambient = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 0.3);
 		
-		conts light = new THREE.DirectionalLight();
+		const light = new THREE.DirectionalLight();
 		light.position.set(0.2,1,1);
 		
 	//add elements to the scene
@@ -36,12 +36,16 @@ class App{
 		this.scene.add(light);
 	
 		this.scene.add(this.mesh);
+	//controls
+		const controls = new OrbitControls(this.camera, this.renderer.domElement);
 		
         window.addEventListener('resize', this.resize.bind(this) );
 	}	
     
     resize(){
-        
+        this.camera.aspect = window.innerWidth/window-innerHeight;
+		this.camera.updateProjectionMatrix();
+		this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
     
 	render( ) {  
