@@ -3,6 +3,7 @@ import { OrbitControls } from '../../libs/three/jsm/OrbitControls.js';
 
 class App{
 	constructor(){
+		alert("Entro");
 		const container = document.createElement( 'div' );
 		document.body.appendChild( container );
     
@@ -19,6 +20,13 @@ class App{
 		
 		this.renderer.setAnimationLoop(this.render.bind(this));
         
+		const geometry = new THREE.BoxBufferGeometry();
+		const materialBox = new THREE.MeshStandardMaterial({color : 0xff0000});
+		
+		this.mesh = new THREE.Mesh(geometry, materialBox);
+		
+		this.scene.add(this.mesh);
+		
         window.addEventListener('resize', this.resize.bind(this) );
 	}	
     
