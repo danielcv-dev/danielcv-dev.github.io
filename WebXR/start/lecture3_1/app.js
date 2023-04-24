@@ -70,7 +70,7 @@ class App{
 		}
     }
     
-    setupXR(){
+    setupVR(){
         this.renderer.xr.enable = true;
 		document.body.appendChild(VRButton.createButton(this.renderer));
     }
