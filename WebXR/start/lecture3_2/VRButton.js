@@ -19,12 +19,32 @@ class VRButton{
 				supported ? this.showEnterVR(button) : this.showWebXRNotFound(button);
 			})
 		} else {
-            
+            const message = document.createElement('a');
+			if(window.isSecureContext === false){
+				message.href = document.location.href.replace('http:', 'https:');
+				message.innerHTML = 'Web XR needs https';
+			}
+			else{
+				message.href = 'https://immersiveweb.dev';
+				message.innerHTML = "Web XR not avalible";
+			}
+			
+			message.style.left = '0px';
+			message.style.width = '100%';
+			message.style.textDecoration = 'none';
+			
+			this.stylizeElement(message, false);
+			message.style.bottom = '0px';
+			message.style.opacity = '1';
+			
+			document.body.appendChild(message);
 		}
+		
 
     }
 
 	showEnterVR( button ) {
+		let currentSession = null;
 		this.stylizeElement(button, true, 30, true);
 		
 		button.style.display = '';
@@ -32,6 +52,48 @@ class VRButton{
 		button.style.width = '80px';
 		button.style.cursor = 'pointer';
 		button.innerHTML = '<i class="fas fa-vr-cardboard"></i>';
+		
+		button.onmouseenter = function(){
+			button.style.fontSize = '12px';
+			button.textContent = (currentSession===null) ? 'Enter VR' : 'Exit VR';
+			button.style.opacity = '1';
+		}
+		
+		button.onmouseleave = function(){
+			button.style.fontSize = '30px';
+			button.innerHTML = '<i class="fas fa-vr-cardboard"></i>';
+			button.style.opacity = '0.5';
+		}
+		
+		const self = this;
+		
+		function onSessionStated(session){
+			session.addEventListener('end', onSessionEnded);
+			
+			self.renderer.xr.setSession(session);
+			self.stylizeElement(button, false, 12, true);
+			button.textContent = 'Exit VR';
+			
+			currentSession = session;
+		}		
+		
+		function onSessionEnded(){
+			currentSession.removeEventListener('end', onSessionEnded);
+			
+			self.stylizeElement(button, true, 12, true);
+			button.textContent='Enter VR';
+			currentSession = null;
+		}
+		
+		button.onclick = function(){
+			if(currentSession===null){
+				const sessionInit= { optionalFeatures:['local-floor', 'bounded-floor'] }
+				navigator.xr.requestSession('immersive-vr', sessionInit).then(onSessionStated);
+			}
+			else{
+				currentSession.end();
+			}
+		}
     }
 
     disableButton( button ) {
