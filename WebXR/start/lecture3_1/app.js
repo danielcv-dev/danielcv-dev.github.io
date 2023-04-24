@@ -40,7 +40,7 @@ class App{
         container.appendChild( this.stats.dom );
         
         this.initScene();
-        this.setupXV();
+        this.setupVR();
         
         window.addEventListener('resize', this.resize.bind(this) );
         
