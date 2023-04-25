@@ -96,7 +96,7 @@ class App{
 		 line.name = 'line';
 		 line.scale.z = 0;
 		 
-		 const controllers = []:
+		 const controllers = [];
 		 
 		 for(let i=0; i<=1; i++){
 			 const controller = this.renderer.xr.getController(i);
