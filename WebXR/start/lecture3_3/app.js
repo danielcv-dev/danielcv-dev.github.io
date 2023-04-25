@@ -110,7 +110,6 @@ class App{
 			 this.scene.add(grip);
 		 }
 		 return controllers;
-		 return controllers;
     }
     
     handleController( controller ){
