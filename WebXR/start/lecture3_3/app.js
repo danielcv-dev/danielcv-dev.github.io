@@ -106,7 +106,7 @@ class App{
 			 
 			 controllers.push(controller);
 			 
-			 const grip = this.renderer.xr.getControllerModel(i);
+			 const grip = this.renderer.xr.createControllerModel(i);
 			 this.scene.add(grip);
 		 }
 		 return controllers;
